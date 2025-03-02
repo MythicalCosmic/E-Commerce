@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('discount', 8, 2);
             $table->string('image');
             $table->foreignId('category_id')->constrained()->onDelete('restrict');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

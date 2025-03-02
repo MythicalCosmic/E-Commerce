@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\User;
 use App\Repositories\RepositoryInterface;
 
 abstract class BaseRepository implements RepositoryInterface
@@ -63,5 +64,10 @@ abstract class BaseRepository implements RepositoryInterface
         }
 
         return false;
+    }
+
+    public function getAllPaginated($perPage = 15)
+    {
+        return User::paginate($perPage);
     }
 }

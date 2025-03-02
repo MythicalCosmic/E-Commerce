@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Repositories\User\UserRepository;
 use League\Fractal\Manager;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Resource\Item;
 use League\Fractal\Resource\Collection;
 use App\Transformers\UserTransformer;
@@ -22,11 +23,13 @@ class UserService
 
     public function all(): array
     {
-        $users = $this->userRepository->getAll();
-        $resource = new Collection($users, new UserTransformer());
+        $users = $this->userRepository->getAllPaginated();
+        $resource = new Collection($users->items(), new UserTransformer());
+        $resource->setPaginator(new IlluminatePaginatorAdapter($users));
 
         return $this->formatData($this->fractal->createData($resource)->toArray(), 'users');
     }
+
 
     public function show(User $user): array
     {

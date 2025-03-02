@@ -11,7 +11,7 @@ class UserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,14 +24,16 @@ class UserRequest extends FormRequest
         $user = $this->route('user');
 
         return match ($this->route()?->getName()) {
-            'users.store' => [
+            'users.create' => [
                 'name' => ['required', 'string', 'max:150'],
                 'username' => ['required', 'string', 'min:4', 'max:32', 'unique:users'],
+                'email' => ['required', 'string', 'min:4', 'max:32', 'unique:users'],
                 'password' => ['required', 'string', 'min:4', 'max:16'],
             ],
             'users.update' => [
                 'name' => ['required', 'string', 'max:150'],
                 'username' => ['required', 'string', 'min:4', 'max:32', 'unique:users,username,' . $user->id],
+                'email' => ['required', 'string', 'min:4', 'max:32', 'unique:users'],
                 'password' => ['sometimes', 'string', 'min:4', 'max:16'],
             ],
             default => []

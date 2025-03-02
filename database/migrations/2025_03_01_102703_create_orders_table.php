@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('restrict');
             $table->string('total_price');
             $table->enum('status', ['pending', 'paid', 'shipped', 'delivered', 'canceled'])->default('pending');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

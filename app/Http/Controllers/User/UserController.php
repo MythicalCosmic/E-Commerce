@@ -6,8 +6,8 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UserController extends ApiController
 {
@@ -30,8 +30,15 @@ class UserController extends ApiController
 
     public function create(UserRequest $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), $request->rules());
+
+        if ($validator->fails()) {
+            return $this->errorResponse('Creation Failed', 422, $validator->errors());
+        }
+
         return $this->successResponse($this->service->create($request->validated()));
     }
+
 
     public function update(UserRequest $request, User $user): JsonResponse
     {
@@ -40,6 +47,6 @@ class UserController extends ApiController
 
     public function destroy(User $user): JsonResponse
     {
-        return $this->successResponse($this->service->delete($user));
+        return $this->service->delete($user);
     }
 }

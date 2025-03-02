@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('stripe_payment_id')->unique(true);
             $table->decimal('amount', 8, 2);
             $table->enum('status', ['pending', 'success', 'failed'])->default('pending');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

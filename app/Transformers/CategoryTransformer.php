@@ -2,18 +2,17 @@
 
 namespace App\Transformers;
 
+use App\Models\Category;
 use League\Fractal\TransformerAbstract;
-use App\Models\User;
 
-class UserTransformer extends TransformerAbstract
+class CategoryTransformer extends TransformerAbstract
 {
-    public function transform(User $user): array
+    public function transform(Category $user): array
     {
         return [
             'id' => $user->id,
             'name' => $user->name,
-            'email' => $user->email,
-            'username' => $user->username,
+            'slug' => $user->email,
             'created_at' => $user->created_at,
             'updated_at' => $user->updated_at
         ];
